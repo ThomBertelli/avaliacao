@@ -1,6 +1,7 @@
 package com.attornatus.avaliacao.entity.dto;
 
 import com.attornatus.avaliacao.entity.Endereco;
+import com.attornatus.avaliacao.entity.Pessoa;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class PessoaDTO {
     private List<Endereco> enderecos = new ArrayList<>();
     @NotBlank
     private Endereco enderecoPrincipal;
+
 
 
 }

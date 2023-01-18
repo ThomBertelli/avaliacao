@@ -1,9 +1,7 @@
 package com.attornatus.avaliacao.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 public class Pessoa {
 
     @Id
