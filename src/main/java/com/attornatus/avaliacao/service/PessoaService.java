@@ -61,7 +61,34 @@ public class PessoaService {
         }
     }
 
+    public ResponseEntity buscaPorNumeroCadastro (String numeroCadastro) throws ResourceNotFoundException {
+        Pessoa pessoa = repository.findByNumeroCadastro(numeroCadastro);
+        if(pessoa == null){
+            throw  new ResourceNotFoundException("Pessoa não encontrado");
+        }
+        return new ResponseEntity(
+                mapper.convertValue(pessoa,PessoaResponseDTO.class), HttpStatus.OK);
 
+    }
+
+    public ResponseEntity editar(PessoaResponseDTO pessoaResponseDTO) throws ResourceNotFoundException {
+
+        try {
+            Pessoa pessoaEditada = repository.findByNumeroCadastro(pessoaResponseDTO.getNumeroCadastro());
+            if (pessoaResponseDTO.getNome() != null) {
+                pessoaEditada.setNome(pessoaResponseDTO.getNome());
+            }
+            if (pessoaResponseDTO.getDataNascimento() != null) {
+                pessoaEditada.setDataNascimento(pessoaResponseDTO.getDataNascimento());
+            }
+            if (pessoaResponseDTO.getEnderecoPrincipal() != null) {
+                pessoaEditada.setEnderecoPrincipal(pessoaResponseDTO.getEnderecoPrincipal());
+            }
+            return new ResponseEntity(mapper.convertValue(repository.save(pessoaEditada),PessoaResponseDTO.class), HttpStatus.OK);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("Erro ao editar pessoa.");
+        }
+    }
 
 
 }

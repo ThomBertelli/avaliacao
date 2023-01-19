@@ -31,6 +31,6 @@ public class PessoaResponseDTO {
     private Endereco enderecoPrincipal;
 
     @NotBlank
-    private String matricula;
+    private String numeroCadastro;
 
 }
