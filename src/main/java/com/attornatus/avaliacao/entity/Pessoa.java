@@ -24,13 +24,19 @@ public class Pessoa {
     @Column(nullable = false)
     private Date dataNascimento;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco",nullable = false)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco",nullable = false)
     private Endereco enderecoPrincipal;
+
+    public void setEnderecoPrincipal(Endereco endereco){
+        this.enderecoPrincipal = endereco;
+        if (!enderecos.contains(endereco)) {
+            enderecos.add(endereco);
+        }
+    }
 
 
 }

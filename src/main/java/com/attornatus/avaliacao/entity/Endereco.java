@@ -27,4 +27,8 @@ public class Endereco {
     @Column(nullable = false)
     private String cidade;
 
+
+
+
+
 }

@@ -1,7 +1,6 @@
 package com.attornatus.avaliacao.entity.dto;
 
 import com.attornatus.avaliacao.entity.Endereco;
-import com.attornatus.avaliacao.entity.Pessoa;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -18,12 +17,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PessoaDTO {
+public class PessoaRequestDTO {
 
     @NotBlank
     private String nome;
     @NotBlank
     private Date dataNascimento;
+
     @NotBlank
     private List<Endereco> enderecos = new ArrayList<>();
     @NotBlank

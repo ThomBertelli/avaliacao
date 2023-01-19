@@ -1,7 +1,8 @@
 package com.attornatus.avaliacao.service;
 
 import com.attornatus.avaliacao.entity.Pessoa;
-import com.attornatus.avaliacao.entity.dto.PessoaDTO;
+import com.attornatus.avaliacao.entity.dto.PessoaRequestDTO;
+import com.attornatus.avaliacao.exception.CadastroInvalidoException;
 import com.attornatus.avaliacao.repository.PessoaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,19 @@ public class PessoaService {
     PessoaRepository repository;
     ObjectMapper mapper = new ObjectMapper();
 
-    public ResponseEntity salvar (PessoaDTO pesssoaDTO) {
+    public ResponseEntity salvar (PessoaRequestDTO pesssoaDTO) throws CadastroInvalidoException {
         Pessoa pessoaSalva = null;
         ObjectMapper mapper = new ObjectMapper();
         Pessoa pessoa = mapper.convertValue(pesssoaDTO, Pessoa.class);
 
-        pessoaSalva = repository.save(pessoa);
+        try{
+            pessoaSalva = repository.save(pessoa);
+        }catch (Exception ex){
+            throw new CadastroInvalidoException("Cadastro inválido");
+        }
+        return new ResponseEntity(mapper.convertValue(pessoaSalva, PessoaRequestDTO.class), HttpStatus.OK);
 
-        return new ResponseEntity(mapper.convertValue(pessoaSalva,PessoaDTO.class), HttpStatus.OK);
+
 
 
 
@@ -39,14 +45,14 @@ public class PessoaService {
 
 
 
-    public List<PessoaDTO> listarPessoas(){
+    public List<PessoaRequestDTO> listarPessoas(){
         List<Pessoa> listPessoa = repository.findAll();
-        List<PessoaDTO> listPessoaDTO = new ArrayList<>();
+        List<PessoaRequestDTO> listPessoaRequestDTO = new ArrayList<>();
 
         for (Pessoa pessoa : listPessoa){
-            listPessoaDTO.add(mapper.convertValue(pessoa, PessoaDTO.class));
+            listPessoaRequestDTO.add(mapper.convertValue(pessoa, PessoaRequestDTO.class));
         }
-        return listPessoaDTO;
+        return listPessoaRequestDTO;
     }
 
 
