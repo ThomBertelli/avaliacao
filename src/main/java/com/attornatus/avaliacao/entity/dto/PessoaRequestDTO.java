@@ -29,6 +29,9 @@ public class PessoaRequestDTO {
     @NotBlank
     private Endereco enderecoPrincipal;
 
+    @NotBlank
+    private String matricula;
+
 
 
 }

@@ -6,6 +6,9 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+
+
 
 @Data
 @AllArgsConstructor
@@ -31,6 +34,9 @@ public class Pessoa {
     @JoinColumn(name = "id_endereco",nullable = false)
     private Endereco enderecoPrincipal;
 
+    @Column(nullable = false, unique = true)
+    private String numeroCadastro;
+
     public void setEnderecoPrincipal(Endereco endereco){
         this.enderecoPrincipal = endereco;
         if (!enderecos.contains(endereco)) {
@@ -38,5 +44,8 @@ public class Pessoa {
         }
     }
 
+    public void setNumeroCadastro(){
+        this.numeroCadastro = UUID.randomUUID().toString();
+    }
 
 }

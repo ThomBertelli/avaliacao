@@ -24,9 +24,13 @@ public class PessoaResponseDTO {
     @NotBlank
     private Date dataNascimento;
 
-
+    @NotBlank
     private List<Endereco> enderecos = new ArrayList<>();
 
+    @NotBlank
     private Endereco enderecoPrincipal;
+
+    @NotBlank
+    private String matricula;
 
 }

@@ -40,7 +40,7 @@ public class PessoaService {
     public ResponseEntity listarPessoas () throws ResourceNotFoundException {
         List<Pessoa> pessoaList = repository.findAll();
         if(pessoaList.isEmpty()){
-            throw  new ResourceNotFoundException("Nenhuma pessoa foi cadastrada.")
+            throw  new ResourceNotFoundException("Nenhuma pessoa foi cadastrada.");
         }
 
         List<PessoaResponseDTO> pessoaResponseDTOList = new ArrayList<>();
@@ -49,6 +49,16 @@ public class PessoaService {
             pessoaResponseDTOList.add(mapper.convertValue(pessoa, PessoaResponseDTO.class));
         }
         return new ResponseEntity(pessoaResponseDTOList,HttpStatus.OK);
+    }
+
+    public void excluir(String numeroCadastro) throws ResourceNotFoundException {
+        try{
+            Pessoa pessoa = repository.findByNumeroCadastro(numeroCadastro);
+            repository.delete(pessoa);
+        }catch (Exception exception){
+
+            throw  new ResourceNotFoundException("Pessoa não encontrada");
+        }
     }
 
 
