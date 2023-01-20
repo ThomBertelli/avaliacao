@@ -5,6 +5,8 @@ package com.attornatus.avaliacao.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 
 @Getter
 @Setter

@@ -31,11 +31,15 @@ public class Pessoa {
     private List<Endereco> enderecos = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco",nullable = false)
+    @JoinColumn(name = "id_endereco")
     private Endereco enderecoPrincipal;
 
     @Column(nullable = false, unique = true)
     private String numeroCadastro;
+
+    public void setNumeroCadastro() {
+        this.numeroCadastro = UUID.randomUUID().toString();
+    }
 
     public void setEnderecoPrincipal(Endereco endereco){
         this.enderecoPrincipal = endereco;
@@ -44,8 +48,8 @@ public class Pessoa {
         }
     }
 
-    public void setNumeroCadastro(){
-        this.numeroCadastro = UUID.randomUUID().toString();
-    }
+//   // public void setNumeroCadastro(){
+//        this.numeroCadastro = UUID.randomUUID().toString();
+//    }
 
 }

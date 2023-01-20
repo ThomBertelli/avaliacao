@@ -28,6 +28,7 @@ public class PessoaService {
         Pessoa pessoa = mapper.convertValue(pesssoaRequestDTO, Pessoa.class);
 
         try{
+            pessoa.setNumeroCadastro();
             pessoaSalva = repository.save(pessoa);
         }catch (Exception ex){
             throw new CadastroInvalidoException("Cadastro inválido");
