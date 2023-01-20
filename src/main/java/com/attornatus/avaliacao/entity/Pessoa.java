@@ -27,7 +27,7 @@ public class Pessoa {
     @Column(nullable = false)
     private Date dataNascimento;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Endereco> enderecos = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)

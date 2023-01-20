@@ -88,27 +88,4 @@ public class PessoaService {
             throw new ResourceNotFoundException("Erro ao editar pessoa.");
         }
     }
-
-    public ResponseEntity mostrarEnderecoPrincipal(String numeroCadastro) throws ResourceNotFoundException {
-        Pessoa pessoa = repository.findByNumeroCadastro(numeroCadastro);
-        if(pessoa == null){
-            throw  new ResourceNotFoundException("Pessoa não encontrado");
-        }
-
-        return new ResponseEntity(mapper.convertValue(pessoa.getEnderecoPrincipal(), PessoaResponseDTO.class),HttpStatus.OK);
-
     }
-
-    public ResponseEntity listarTodosEnderecos(String numeroCadastro) throws ResourceNotFoundException {
-        Pessoa pessoa = repository.findByNumeroCadastro(numeroCadastro);
-        if(pessoa == null){
-            throw  new ResourceNotFoundException("Pessoa não encontrado");
-        }
-
-        return new ResponseEntity(mapper.convertValue(pessoa.getEnderecos(), PessoaResponseDTO.class),HttpStatus.OK);
-
-    }
-
-
-
-}
