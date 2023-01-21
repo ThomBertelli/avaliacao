@@ -26,14 +26,17 @@ public class PessoaService {
         Pessoa pessoaSalva = null;
         ObjectMapper mapper = new ObjectMapper();
         Pessoa pessoa = mapper.convertValue(pesssoaRequestDTO, Pessoa.class);
-
+        pessoa.setNumeroCadastro();
         try{
-            pessoa.setNumeroCadastro();
+
             pessoaSalva = repository.save(pessoa);
         }catch (Exception ex){
             throw new CadastroInvalidoException("Cadastro inválido");
         }
-        return new ResponseEntity(mapper.convertValue(pessoaSalva, PessoaResponseDTO.class), HttpStatus.OK);
+        PessoaResponseDTO pessoaResponseDTO = mapper.convertValue(pessoaSalva, PessoaResponseDTO.class);
+        pessoaResponseDTO.setNumeroCadastro(pessoaSalva.getNumeroCadastro());
+
+        return new ResponseEntity(pessoaResponseDTO, HttpStatus.OK);
 
     }
 

@@ -48,8 +48,5 @@ public class Pessoa {
         }
     }
 
-//   // public void setNumeroCadastro(){
-//        this.numeroCadastro = UUID.randomUUID().toString();
-//    }
 
 }
