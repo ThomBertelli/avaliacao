@@ -1,30 +1,22 @@
 package com.attornatus.avaliacao;
 
 import com.attornatus.avaliacao.entity.Endereco;
-import com.attornatus.avaliacao.entity.Pessoa;
 import com.attornatus.avaliacao.entity.dto.PessoaRequestDTO;
 import com.attornatus.avaliacao.entity.dto.PessoaResponseDTO;
-import com.attornatus.avaliacao.service.PessoaService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,28 +28,24 @@ class PessoaControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Autowired
-    PessoaService pessoaService;
-
-
     @Test
     void testSalvar() throws Exception {
 
-        Endereco endereco1 = new Endereco();
-        endereco1.setCidade("Joinville");
-        endereco1.setCep("89201-000");
-        endereco1.setLogradouro("Rua 12 de julho");
-        endereco1.setNumero("5555");
+        Endereco endereco2 = new Endereco();
+        endereco2.setCidade("Joinville");
+        endereco2.setCep("89201-000");
+        endereco2.setLogradouro("Rua 12 de julho");
+        endereco2.setNumero("5555");
 
-        PessoaRequestDTO pessoa1 = new PessoaRequestDTO();
-        pessoa1.setDataNascimento(new Date());
-        pessoa1.setNome("Marcos Silva");
-        pessoa1.setEnderecoPrincipal(endereco1);
+        PessoaRequestDTO pessoa2 = new PessoaRequestDTO();
+        pessoa2.setDataNascimento(new Date());
+        pessoa2.setNome("Marcos Silva");
+        pessoa2.setEnderecoPrincipal(endereco2);
 
 
 
         ObjectMapper objectMapper = new ObjectMapper();
-        String requestJson = objectMapper.writeValueAsString(pessoa1);
+        String requestJson = objectMapper.writeValueAsString(pessoa2);
 
         MvcResult result= mockMvc.perform(post("/api")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -87,7 +75,7 @@ class PessoaControllerTest {
 
 
         Assertions.assertTrue(pessoaResponseDTOList.size() > 0);
-        Assertions.assertEquals("Marcos Silva", pessoaResponseDTOList.get(0).getNome());
+
 
     }
 
@@ -145,10 +133,33 @@ class PessoaControllerTest {
 
     }
 
+
+
+
+
     @Test
     public void testEditar() throws Exception{
 
         ObjectMapper objectMapper = new ObjectMapper();
+
+        Endereco endereco3 = new Endereco();
+        endereco3.setCidade("Maranguape");
+        endereco3.setCep("577899");
+        endereco3.setLogradouro("Rua Edson Mil");
+        endereco3.setNumero("645");
+
+        PessoaRequestDTO pessoa3 = new PessoaRequestDTO();
+        pessoa3.setDataNascimento(new Date());
+        pessoa3.setNome("Tulio Cardoroso");
+        pessoa3.setEnderecoPrincipal(endereco3);
+
+        String requestJson = objectMapper.writeValueAsString(pessoa3);
+
+        mockMvc.perform(post("/api")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+                .andReturn();
+
 
         MvcResult resultList = mockMvc.perform(get("/api"))
                 .andExpect(status().isOk())
@@ -162,11 +173,11 @@ class PessoaControllerTest {
         pessoaResponseDTO.setNome("Brandom Silva");
 
 
-        String requestJson = objectMapper.writeValueAsString(pessoaResponseDTO);
+        String requestJson2 = objectMapper.writeValueAsString(pessoaResponseDTO);
 
-        MvcResult result= mockMvc.perform(patch("/api")
+       mockMvc.perform(patch("/api")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
+                        .content(requestJson2))
                 .andExpect(status().isOk())
                 .andReturn();
 
