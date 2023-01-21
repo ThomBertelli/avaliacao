@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.AssertionErrors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,8 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -114,10 +114,7 @@ class PessoaControllerTest {
                 .andExpect(jsonPath("$.body.nome").value(pessoaResponseDTOList.get(0).getNome()))
                 .andReturn();
 
-
-
     }
-
 
     @Test
     public void testExcluir() throws Exception {
@@ -148,6 +145,34 @@ class PessoaControllerTest {
 
     }
 
-//
+    @Test
+    public void testEditar() throws Exception{
 
-}
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        MvcResult resultList = mockMvc.perform(get("/api"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JsonNode jsonNode = objectMapper.readTree(resultList.getResponse().getContentAsString());
+        ArrayList<PessoaResponseDTO> pessoaResponseDTOList = objectMapper.convertValue(jsonNode.get("body"), new TypeReference<>() {
+        });
+
+        PessoaResponseDTO pessoaResponseDTO =  pessoaResponseDTOList.get(0);
+        pessoaResponseDTO.setNome("Brandom Silva");
+
+
+        String requestJson = objectMapper.writeValueAsString(pessoaResponseDTO);
+
+        MvcResult result= mockMvc.perform(patch("/api")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andReturn();
+
+
+        Assertions.assertEquals("Brandom Silva",pessoaResponseDTOList.get(0).getNome());
+    }
+
+
+    }
